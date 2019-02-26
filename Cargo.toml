@@ -1,0 +1,12 @@
+[workspace]
+members = [
+  "agent",
+  "builder_derive",
+  "core",
+  "jvm_core",
+  "jvm_sdk_agent",
+  "jvm_bare_agent",
+]
+
+[profile.release]
+panic = "abort"

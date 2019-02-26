@@ -1,0 +1,17 @@
+[package]
+name = "rollbar-rust"
+version = "0.1.0"
+authors = ["Andrew Weiss <andrew@rollbar.com>"]
+
+[dependencies]
+log = "0.4"
+error-chain = "0.12.0"
+lazy_static = "1.1.0"
+reqwest = "0.9.4"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+simple_logger = "1.0.1"
+uuid = { version = "0.7", features = ["v4"] }
+
+builder_derive = { path = "../builder_derive" }
