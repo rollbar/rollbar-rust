@@ -2,8 +2,6 @@
 name = "rollbar-jvm-agent"
 version = "0.1.0"
 authors = ["Andrew Weiss <wvvwwvw@gmail.com>"]
-edition = "2018"
-workspace = ".."
 
 [lib]
 crate_type = [ "cdylib" ]
