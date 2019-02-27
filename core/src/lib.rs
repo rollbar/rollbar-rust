@@ -1,20 +1,15 @@
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate serde_derive;
-#[macro_use]
-extern crate builder_derive;
-#[macro_use]
-extern crate error_chain;
-extern crate reqwest;
-extern crate uuid;
+#[macro_use] extern crate log;
+#[macro_use] extern crate serde_derive;
+#[macro_use] extern crate builder_derive;
+#[macro_use] extern crate error_chain;
 
 mod configuration;
-pub mod constants;
 mod errors;
+mod transport;
+
+pub mod constants;
 pub mod types;
 pub use log::Level;
-mod transport;
 
 pub use crate::configuration::Configuration;
 pub use crate::transport::{HttpTransport, Transport};
@@ -30,7 +25,6 @@ impl Uuid {
 impl Into<String> for Uuid {
     fn into(self) -> String {
         format!("{}", self.0.to_hyphenated())
-        //format!("{}", self.0.to_simple())
     }
 }
 

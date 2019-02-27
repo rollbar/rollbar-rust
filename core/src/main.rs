@@ -1,7 +1,4 @@
-extern crate rollbar_rust;
-extern crate simple_logger;
-#[macro_use]
-extern crate log;
+#[macro_use] extern crate log;
 
 use rollbar_rust::constants;
 use rollbar_rust::types::*;
