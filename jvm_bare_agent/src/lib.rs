@@ -4,8 +4,11 @@
 
 #[macro_use]
 extern crate log;
+extern crate lazy_static;
 extern crate rollbar_jvm;
 extern crate rollbar_rust;
+extern crate regex;
+extern crate toml;
 
 use lazy_static::lazy_static;
 

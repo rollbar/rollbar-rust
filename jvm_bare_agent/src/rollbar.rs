@@ -1,7 +1,6 @@
 use rollbar_rust::types::{DataBuilder, Item};
 use rollbar_rust::{constants, Configuration, HttpTransport, Transport, Uuid};
 use std::time::Duration;
-use toml;
 
 pub struct Rollbar {
     conf: Configuration,
