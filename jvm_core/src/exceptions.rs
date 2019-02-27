@@ -1,11 +1,11 @@
-use env::JvmTiEnv;
-use errors::*;
-use jni::JniEnv;
+use crate::env::JvmTiEnv;
+use crate::errors::*;
+use crate::jni::JniEnv;
 use std::ffi::CStr;
 use std::ptr;
 use std::slice;
 
-use jvmti::{
+use crate::jvmti::{
     jclass, jdouble, jfloat, jint, jlocation, jlong, jmethodID, jobject, jobjectArray, jsize,
     jthread, jvmtiError_JVMTI_ERROR_ABSENT_INFORMATION, jvmtiError_JVMTI_ERROR_NATIVE_METHOD,
     jvmtiFrameInfo, jvmtiLocalVariableEntry,

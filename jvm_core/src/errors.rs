@@ -5,7 +5,7 @@ error_chain! {
             display("JNI call failed: '{}'", s)
         }
 
-        JvmTi(s: String, rc: ::jvmti::jint) {
+        JvmTi(s: String, rc: crate::jvmti::jint) {
             description("JVMTI call failure")
             display("{}: {:?}", s, rc)
         }
@@ -25,8 +25,8 @@ impl From<NulError> for Error {
     }
 }
 
-impl From<Error> for ::jvmti::jint {
-    fn from(err: Error) -> ::jvmti::jint {
+impl From<Error> for crate::jvmti::jint {
+    fn from(err: Error) -> crate::jvmti::jint {
         match err {
             Error(ErrorKind::JvmTi(_, rc), _) => rc,
             Error(ErrorKind::Internal(_), _) => 113, // JVMTI_ERROR_INTERNAL

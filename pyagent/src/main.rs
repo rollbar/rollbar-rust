@@ -21,7 +21,7 @@ mod cli;
 mod configuration;
 mod errors;
 
-use errors::*;
+use crate::errors::*;
 
 fn main() {
     if let Err(ref e) = run() {

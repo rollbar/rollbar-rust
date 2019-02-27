@@ -16,6 +16,6 @@ pub mod jni;
 #[cfg_attr(feature = "cargo-clippy", allow(clippy::all))]
 pub mod jvmti;
 
-pub use env::ExceptionCallbackFn;
+pub use crate::env::ExceptionCallbackFn;
 
 pub use error_chain::bail;

@@ -1,6 +1,6 @@
 use clap::{App, Arg};
-use configuration::{Configuration, ConfigurationBuilder};
-use VERSION;
+use crate::configuration::{Configuration, ConfigurationBuilder};
+use crate::VERSION;
 
 pub fn get_builder() -> ConfigurationBuilder {
     let matches = App::new("rollbar-agent")

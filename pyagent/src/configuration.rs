@@ -1,4 +1,4 @@
-use errors::*;
+use crate::errors::*;
 use ini::{ini, Ini};
 use log;
 use rollbar_rust::types::Level;

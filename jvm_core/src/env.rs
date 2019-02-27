@@ -2,7 +2,7 @@ use std::mem::size_of;
 use std::os::raw::{c_uchar, c_void};
 use std::ptr;
 
-use errors::*;
+use crate::errors::*;
 
 macro_rules! jvmtifn (
     ($r:expr, $f:ident, $($arg:tt)*) => { {
@@ -14,14 +14,14 @@ macro_rules! jvmtifn (
         }
         if rc != jvmtiError_JVMTI_ERROR_NONE {
             let message = format!("JVMTI {} failed", stringify!($f));
-            bail!(::errors::ErrorKind::JvmTi(message, rc as i32))
+            bail!(crate::errors::ErrorKind::JvmTi(message, rc as i32))
         } else {
             Ok(())
         }
     } }
 );
 
-use jvmti::{
+use crate::jvmti::{
     jclass, jdouble, jfloat, jint, jlocation, jlong, jmethodID, jobject, jthread,
     jvmtiCapabilities, jvmtiEnv, jvmtiError_JVMTI_ERROR_NONE, jvmtiEventCallbacks,
     jvmtiEventMode_JVMTI_ENABLE, jvmtiEvent_JVMTI_EVENT_EXCEPTION, jvmtiFrameInfo,

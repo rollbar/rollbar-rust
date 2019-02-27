@@ -1,5 +1,5 @@
 //use errors::*;
-use types::Level;
+use crate::types::Level;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(default)]

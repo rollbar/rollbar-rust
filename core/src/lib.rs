@@ -20,8 +20,8 @@ pub mod types;
 pub use log::Level;
 mod transport;
 
-pub use configuration::Configuration;
-pub use transport::{HttpTransport, Transport};
+pub use crate::configuration::Configuration;
+pub use crate::transport::{HttpTransport, Transport};
 
 pub struct Uuid(uuid::Uuid);
 

@@ -1,4 +1,4 @@
-use types::Notifier;
+use crate::types::Notifier;
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 

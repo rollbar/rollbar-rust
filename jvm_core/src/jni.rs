@@ -1,4 +1,4 @@
-use errors::*;
+use crate::errors::*;
 use std::ffi::{CStr, CString};
 use std::ptr;
 
@@ -6,19 +6,19 @@ use rollbar_rust::types::{Exception, Frame};
 
 #[derive(Clone, Copy)]
 pub struct JniEnv {
-    jni: *mut ::jvmti::JNIEnv,
+    jni: *mut crate::jvmti::JNIEnv,
 }
 
 impl JniEnv {
-    pub fn new(jni_env: *mut ::jvmti::JNIEnv) -> JniEnv {
+    pub fn new(jni_env: *mut crate::jvmti::JNIEnv) -> JniEnv {
         JniEnv { jni: jni_env }
     }
 
     pub fn call_object_method_internal(
         &mut self,
-        object: ::jvmti::jobject,
-        method_id: ::jvmti::jmethodID,
-    ) -> Option<::jvmti::jobject> {
+        object: crate::jvmti::jobject,
+        method_id: crate::jvmti::jmethodID,
+    ) -> Option<crate::jvmti::jobject> {
         let result;
         unsafe {
             result = (**self.jni)
@@ -36,10 +36,10 @@ impl JniEnv {
 
     pub fn call_static_object_method<T>(
         &mut self,
-        class: ::jvmti::jclass,
-        method_id: ::jvmti::jmethodID,
+        class: crate::jvmti::jclass,
+        method_id: crate::jvmti::jmethodID,
         arg: T,
-    ) -> Result<::jvmti::jobject> {
+    ) -> Result<crate::jvmti::jobject> {
         let result;
         unsafe {
             result = (**self.jni)
@@ -61,10 +61,10 @@ impl JniEnv {
 
     pub fn call_static_LI_Z_method(
         &mut self,
-        class: ::jvmti::jclass,
-        method_id: ::jvmti::jmethodID,
-        arg1: ::jvmti::jobject,
-        arg2: ::jvmti::jint,
+        class: crate::jvmti::jclass,
+        method_id: crate::jvmti::jmethodID,
+        arg1: crate::jvmti::jobject,
+        arg2: crate::jvmti::jint,
     ) -> Result<bool> {
         let result;
         unsafe {
@@ -87,10 +87,10 @@ impl JniEnv {
 
     pub fn call_static_LAL_V_method(
         &mut self,
-        class: ::jvmti::jclass,
-        method_id: ::jvmti::jmethodID,
-        arg1: ::jvmti::jobject,
-        arg2: ::jvmti::jobjectArray,
+        class: crate::jvmti::jclass,
+        method_id: crate::jvmti::jmethodID,
+        arg1: crate::jvmti::jobject,
+        arg2: crate::jvmti::jobjectArray,
     ) -> Result<()> {
         unsafe {
             (**self.jni)
@@ -115,11 +115,11 @@ impl JniEnv {
             (**self.jni)
                 .ExceptionCheck
                 .expect("ExceptionCheck function not found")(self.jni)
-                == ::jvmti::JNI_TRUE as u8
+                == crate::jvmti::JNI_TRUE as u8
         }
     }
 
-    pub fn find_class(&mut self, class_name: &str) -> Result<::jvmti::jclass> {
+    pub fn find_class(&mut self, class_name: &str) -> Result<crate::jvmti::jclass> {
         let class;
         let c_class_name = CString::new(class_name)?;
         unsafe {
@@ -140,10 +140,10 @@ impl JniEnv {
 
     pub fn get_static_method_id(
         &mut self,
-        class: ::jvmti::jclass,
+        class: crate::jvmti::jclass,
         method: &str,
         signature: &str,
-    ) -> Result<::jvmti::jmethodID> {
+    ) -> Result<crate::jvmti::jmethodID> {
         let c_method = CString::new(method)?;
         let c_signature = CString::new(signature)?;
         let method_id = self.get_static_method_id_internal(class, &c_method, &c_signature);
@@ -160,10 +160,10 @@ impl JniEnv {
 
     fn get_static_method_id_internal(
         &mut self,
-        class: ::jvmti::jclass,
+        class: crate::jvmti::jclass,
         method: &CString,
         signature: &CString,
-    ) -> Option<::jvmti::jmethodID> {
+    ) -> Option<crate::jvmti::jmethodID> {
         let method_id;
         unsafe {
             method_id = (**self.jni)
@@ -184,11 +184,11 @@ impl JniEnv {
 
     pub fn new_object_StringL(
         &mut self,
-        class: ::jvmti::jclass,
-        ctor: ::jvmti::jmethodID,
-        arg1: ::jvmti::jstring,
-        arg2: ::jvmti::jobject,
-    ) -> Result<::jvmti::jobject> {
+        class: crate::jvmti::jclass,
+        ctor: crate::jvmti::jmethodID,
+        arg1: crate::jvmti::jstring,
+        arg2: crate::jvmti::jobject,
+    ) -> Result<crate::jvmti::jobject> {
         let result;
         unsafe {
             result = (**self.jni)
@@ -208,11 +208,11 @@ impl JniEnv {
 
     pub fn new_object_LAL(
         &mut self,
-        class: ::jvmti::jclass,
-        ctor: ::jvmti::jmethodID,
-        arg1: ::jvmti::jobject,
-        arg2: ::jvmti::jobjectArray,
-    ) -> Result<::jvmti::jobject> {
+        class: crate::jvmti::jclass,
+        ctor: crate::jvmti::jmethodID,
+        arg1: crate::jvmti::jobject,
+        arg2: crate::jvmti::jobjectArray,
+    ) -> Result<crate::jvmti::jobject> {
         let result;
         unsafe {
             result = (**self.jni)
@@ -232,10 +232,10 @@ impl JniEnv {
 
     pub fn new_object_array(
         &mut self,
-        length: ::jvmti::jsize,
-        class: ::jvmti::jclass,
-        init: ::jvmti::jobject,
-    ) -> Result<::jvmti::jobjectArray> {
+        length: crate::jvmti::jsize,
+        class: crate::jvmti::jclass,
+        init: crate::jvmti::jobject,
+    ) -> Result<crate::jvmti::jobjectArray> {
         let result;
         unsafe {
             result = (**self.jni)
@@ -255,9 +255,9 @@ impl JniEnv {
 
     pub fn set_object_array_element(
         &mut self,
-        array: ::jvmti::jobjectArray,
-        index: ::jvmti::jsize,
-        val: ::jvmti::jobject,
+        array: crate::jvmti::jobjectArray,
+        index: crate::jvmti::jsize,
+        val: crate::jvmti::jobject,
     ) -> Result<()> {
         unsafe {
             (**self.jni)
@@ -277,10 +277,10 @@ impl JniEnv {
 
     pub fn get_method_id(
         &mut self,
-        class: ::jvmti::jclass,
+        class: crate::jvmti::jclass,
         method: &str,
         signature: &str,
-    ) -> Result<::jvmti::jmethodID> {
+    ) -> Result<crate::jvmti::jmethodID> {
         let c_method = CString::new(method)?;
         let c_signature = CString::new(signature)?;
         let method_id = self.get_method_id_internal(class, &c_method, &c_signature);
@@ -295,10 +295,10 @@ impl JniEnv {
 
     fn get_method_id_internal(
         &mut self,
-        class: ::jvmti::jclass,
+        class: crate::jvmti::jclass,
         method: &CString,
         signature: &CString,
-    ) -> Option<::jvmti::jmethodID> {
+    ) -> Option<crate::jvmti::jmethodID> {
         let method_id;
         unsafe {
             method_id = (**self.jni)
@@ -317,7 +317,7 @@ impl JniEnv {
         }
     }
 
-    fn get_object_class_internal(&mut self, object: ::jvmti::jobject) -> Option<::jvmti::jclass> {
+    fn get_object_class_internal(&mut self, object: crate::jvmti::jobject) -> Option<crate::jvmti::jclass> {
         let class;
         unsafe {
             class = (**self.jni)
@@ -331,7 +331,7 @@ impl JniEnv {
         }
     }
 
-    pub fn get_exception_message(&mut self, exc: ::jvmti::jobject) -> Option<String> {
+    pub fn get_exception_message(&mut self, exc: crate::jvmti::jobject) -> Option<String> {
         self.get_object_class_internal(exc)
             .and_then(|exc_class| {
                 let c_method = match CString::new("getMessage") {
@@ -349,11 +349,11 @@ impl JniEnv {
 
     fn call_object_method_returning_string(
         &mut self,
-        obj: ::jvmti::jobject,
-        method: ::jvmti::jmethodID,
+        obj: crate::jvmti::jobject,
+        method: crate::jvmti::jmethodID,
     ) -> Option<String> {
         let result = match self.call_object_method_internal(obj, method) {
-            Some(s) => s as ::jvmti::jstring,
+            Some(s) => s as crate::jvmti::jstring,
             None => return None,
         };
         let (result_utf_chars, result_cstr) = self.get_string_utf_chars(result);
@@ -387,7 +387,7 @@ impl JniEnv {
 
     pub fn get_string_utf_chars<'a>(
         &mut self,
-        s: ::jvmti::jstring,
+        s: crate::jvmti::jstring,
     ) -> (*const ::std::os::raw::c_char, &'a CStr) {
         let utf_chars;
         let cstr;
@@ -405,7 +405,7 @@ impl JniEnv {
 
     fn release_string_utf_chars(
         &mut self,
-        s: ::jvmti::jstring,
+        s: crate::jvmti::jstring,
         utf_chars: *const ::std::os::raw::c_char,
     ) {
         unsafe {
@@ -420,7 +420,7 @@ impl JniEnv {
     pub unsafe fn new_string_utf(
         &mut self,
         utf_chars: *const ::std::os::raw::c_char,
-    ) -> Result<::jvmti::jstring> {
+    ) -> Result<crate::jvmti::jstring> {
         let result;
         result = (**self.jni)
             .NewStringUTF
@@ -436,10 +436,10 @@ impl JniEnv {
 
     pub fn get_reflected_method(
         &mut self,
-        method_class: ::jvmti::jclass,
-        method: ::jvmti::jmethodID,
+        method_class: crate::jvmti::jclass,
+        method: crate::jvmti::jmethodID,
         is_static: bool,
-    ) -> Result<::jvmti::jobject> {
+    ) -> Result<crate::jvmti::jobject> {
         let result;
         unsafe {
             result = (**self.jni)
@@ -465,7 +465,7 @@ impl JniEnv {
         class: &str,
         signature: &str,
         val: T,
-    ) -> Result<::jvmti::jobject> {
+    ) -> Result<crate::jvmti::jobject> {
         let reflect_class = self.find_class(class)?;
         let value_of = self.get_static_method_id(reflect_class, "valueOf", signature)?;
         self.call_static_object_method(reflect_class, value_of, val)
@@ -473,9 +473,9 @@ impl JniEnv {
 
     pub fn call_int_method_internal(
         &mut self,
-        object: ::jvmti::jobject,
-        method_id: ::jvmti::jmethodID,
-    ) -> ::jvmti::jint {
+        object: crate::jvmti::jobject,
+        method_id: crate::jvmti::jmethodID,
+    ) -> crate::jvmti::jint {
         let result;
         unsafe {
             result = (**self.jni)
@@ -487,7 +487,7 @@ impl JniEnv {
         result
     }
 
-    pub fn get_exception_info(&mut self, exc: ::jvmti::jobject) -> Result<Exception> {
+    pub fn get_exception_info(&mut self, exc: crate::jvmti::jobject) -> Result<Exception> {
         let exc_class = self
             .get_object_class_internal(exc)
             .expect("exception class not found");
@@ -519,7 +519,7 @@ impl JniEnv {
         Ok(exception)
     }
 
-    pub fn get_stack_trace(&mut self, exc: ::jvmti::jobject) -> Result<Vec<Frame>> {
+    pub fn get_stack_trace(&mut self, exc: crate::jvmti::jobject) -> Result<Vec<Frame>> {
         let exc_class = self
             .get_object_class_internal(exc)
             .expect("exception class not found");
@@ -537,7 +537,7 @@ impl JniEnv {
             size = (**self.jni)
                 .GetArrayLength
                 .expect("GetArrayLength function not found")(
-                self.jni, elements as ::jvmti::jarray
+                self.jni, elements as crate::jvmti::jarray
             );
         }
 

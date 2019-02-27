@@ -4,9 +4,9 @@ use std::sync::{Arc, Condvar, Mutex};
 use std::thread::{self, JoinHandle};
 use std::time::Duration;
 
-use configuration::Configuration;
+use crate::configuration::Configuration;
 use reqwest::Client;
-use types::Item;
+use crate::types::Item;
 
 const QUEUE_DEPTH: usize = 50;
 
