@@ -3,6 +3,7 @@ name = "rollbar-jvm"
 version = "0.1.0"
 authors = ["Andrew Weiss <wvvwwvw@gmail.com>"]
 build = "build.rs"
+edition = "2018"
 
 [dependencies]
 log = "0.4"

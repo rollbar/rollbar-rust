@@ -2,6 +2,7 @@
 name = "builder_derive"
 version = "0.1.0"
 authors = ["Andrew Weiss <wvvwwvw@gmail.com>"]
+edition = "2018"
 
 [dependencies]
 syn = { version = "0.15.14", features = ["full", "extra-traits"]}

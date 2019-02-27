@@ -1,5 +1,5 @@
 use crate::errors::*;
-use ini::{ini, Ini};
+use ini::{ini::Properties, Ini};
 use log;
 use rollbar_rust::types::Level;
 use std::collections::HashMap;
@@ -402,7 +402,7 @@ impl ConfigurationBuilder {
         Ok(result)
     }
 
-    fn process_format(&mut self, name: &str, props: &ini::Properties) {
+    fn process_format(&mut self, name: &str, props: &Properties) {
         let mut format = Format::new(name);
         for (key, value) in props {
             match &key[..] {
@@ -415,7 +415,7 @@ impl ConfigurationBuilder {
         self.c.formats.insert(name.to_owned(), format);
     }
 
-    fn process_app(&mut self, name: &str, props: &ini::Properties) -> Result<()> {
+    fn process_app(&mut self, name: &str, props: &Properties) -> Result<()> {
         let mut app = App::new(name);
         let mut params = HashMap::new();
         let mut log_format = LogFormat::default();
