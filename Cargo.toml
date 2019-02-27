@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "agent",
+  "pyagent",
   "builder_derive",
   "core",
   "jvm_core",
