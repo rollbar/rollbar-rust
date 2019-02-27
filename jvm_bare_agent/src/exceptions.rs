@@ -1,13 +1,10 @@
-//use rollbar_jvm::bail;
 use crate::rollbar::Rollbar;
 use lazy_static::lazy_static;
 use regex::RegexSet;
 use rollbar_jvm::env::JvmTiEnv;
 use rollbar_jvm::errors::*;
 use rollbar_jvm::jni::JniEnv;
-
 use rollbar_jvm::jvmti::{jlocation, jmethodID, jobject, jthread};
-
 use rollbar_rust::types::*;
 use std::sync::atomic::{AtomicPtr, Ordering};
 

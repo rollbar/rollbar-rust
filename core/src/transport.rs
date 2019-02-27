@@ -5,8 +5,8 @@ use std::thread::{self, JoinHandle};
 use std::time::Duration;
 
 use crate::configuration::Configuration;
-use reqwest::Client;
 use crate::types::Item;
+use reqwest::Client;
 
 const QUEUE_DEPTH: usize = 50;
 

@@ -1,4 +1,5 @@
 use crate::types::Notifier;
+use lazy_static::lazy_static;
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 

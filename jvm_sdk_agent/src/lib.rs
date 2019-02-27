@@ -4,7 +4,6 @@
 
 #[macro_use]
 extern crate log;
-extern crate rollbar_jvm;
 
 mod exceptions;
 

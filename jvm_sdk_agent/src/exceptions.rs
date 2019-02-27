@@ -2,7 +2,6 @@ use rollbar_jvm::env::JvmTiEnv;
 use rollbar_jvm::errors::*;
 use rollbar_jvm::exceptions::build_stack_trace_frames;
 use rollbar_jvm::jni::JniEnv;
-
 use rollbar_jvm::jvmti::{jobject, jthread};
 
 pub fn inner_callback(

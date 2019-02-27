@@ -4,29 +4,22 @@
 
 #[macro_use]
 extern crate log;
-extern crate lazy_static;
-extern crate rollbar_jvm;
-extern crate rollbar_rust;
-extern crate regex;
-extern crate toml;
-
-use lazy_static::lazy_static;
 
 mod exceptions;
-
 mod rollbar;
-use crate::rollbar::Rollbar;
-use rollbar_rust::Configuration;
 
+use crate::rollbar::Rollbar;
+use lazy_static::lazy_static;
 use rollbar_jvm::env::JvmTiEnv;
 use rollbar_jvm::jni::JniEnv;
 use rollbar_jvm::jvmti::*;
+use rollbar_rust::Configuration;
 use std::os::raw::{c_char, c_void};
 use std::sync::atomic::{AtomicBool, Ordering, ATOMIC_BOOL_INIT};
+use std::sync::Once;
 
 static INIT_SUCCESS: AtomicBool = ATOMIC_BOOL_INIT;
 
-use std::sync::Once;
 static mut CONFIG: Option<Configuration> = None;
 static INIT: Once = Once::new();
 

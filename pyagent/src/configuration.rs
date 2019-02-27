@@ -1,10 +1,9 @@
 use crate::errors::*;
 use ini::{ini::Properties, Ini};
-use log;
 use rollbar_rust::types::Level;
+use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::mem;
-use toml;
 
 const DEFAULT: &'static str = "DEFAULT";
 

@@ -317,7 +317,10 @@ impl JniEnv {
         }
     }
 
-    fn get_object_class_internal(&mut self, object: crate::jvmti::jobject) -> Option<crate::jvmti::jclass> {
+    fn get_object_class_internal(
+        &mut self,
+        object: crate::jvmti::jobject,
+    ) -> Option<crate::jvmti::jclass> {
         let class;
         unsafe {
             class = (**self.jni)
@@ -537,7 +540,8 @@ impl JniEnv {
             size = (**self.jni)
                 .GetArrayLength
                 .expect("GetArrayLength function not found")(
-                self.jni, elements as crate::jvmti::jarray
+                self.jni,
+                elements as crate::jvmti::jarray,
             );
         }
 

@@ -1,4 +1,3 @@
-//use errors::*;
 use crate::types::Level;
 
 #[derive(Debug, Serialize, Deserialize)]

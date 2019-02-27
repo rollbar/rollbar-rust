@@ -6,7 +6,6 @@
 extern crate log;
 #[macro_use]
 extern crate error_chain;
-extern crate rollbar_rust;
 
 pub mod env;
 pub mod errors;
@@ -17,5 +16,4 @@ pub mod jni;
 pub mod jvmti;
 
 pub use crate::env::ExceptionCallbackFn;
-
 pub use error_chain::bail;
