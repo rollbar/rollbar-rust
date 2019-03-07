@@ -17,11 +17,14 @@ use rollbar_rust::Configuration;
 use std::os::raw::{c_char, c_void};
 use std::sync::atomic::{AtomicBool, Ordering, ATOMIC_BOOL_INIT};
 use std::sync::Once;
+use std::env;
 
 static INIT_SUCCESS: AtomicBool = ATOMIC_BOOL_INIT;
 
 static mut CONFIG: Option<Configuration> = None;
 static INIT: Once = Once::new();
+
+const ACCESS_TOKEN_KEY: &'static str = "ROLLBAR_TOKEN";
 
 lazy_static! {
     static ref ROLLBAR: Rollbar = build_client();
@@ -45,6 +48,16 @@ fn initialize_configuration() -> bool {
                 }
                 Err(err) => {
                     debug!("Error loading configuration: {}", err);
+                    match env::var(ACCESS_TOKEN_KEY) {
+                        Ok(token) => {
+                            let mut conf = Configuration::default();
+                            conf.access_token = Some(token);
+                            CONFIG = Some(conf);
+                        },
+                        Err(e) => {
+                            debug!("Error loading {}: {}", ACCESS_TOKEN_KEY, e);
+                        },
+                    }
                 }
             }
         });
