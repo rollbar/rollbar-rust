@@ -5,7 +5,7 @@ extern crate error_chain;
 
 use std::fs;
 
-const VERSION: &'static str = "0.4.3";
+const VERSION: &str = "0.4.3";
 
 mod cli;
 mod configuration;
@@ -39,7 +39,7 @@ fn run() -> Result<()> {
     let config = builder.build();
     simple_logger::init_with_level(config.log_level()).chain_err(|| "simple logger failed?")?;
     config.validate()?;
-    write_config_to_file("converted.toml", config.to_toml()?)
+    write_config_to_file("converted.toml", config.into_toml()?)
 }
 
 fn write_config_to_file(filename: &str, config: String) -> Result<()> {

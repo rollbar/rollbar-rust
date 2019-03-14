@@ -50,9 +50,15 @@ pub fn builder(input: TokenStream) -> TokenStream {
         })
         .map(|(n, t, o)| {
             if let Some(ty) = o {
+                let maybe_name = Ident::new(&format!("maybe_{}", n.clone().unwrap()), name.span());
                 quote_spanned! { name.span() =>
                     pub fn #n<T: Into<#ty>>(mut self, val: T) -> Self {
                         self.node.#n = Some(val.into());
+                        self
+                    }
+
+                    pub fn #maybe_name(mut self, val: Option<#ty>) -> Self {
+                        self.node.#n = val;
                         self
                     }
                 }

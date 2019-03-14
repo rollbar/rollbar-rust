@@ -37,6 +37,7 @@ impl HttpTransport {
             .timeout(Duration::from_secs(configuration.timeout))
             .build()
             .unwrap();
+        #[allow(clippy::mutex_atomic)]
         let queue_depth = Arc::new(Mutex::new(0));
         let endpoint = configuration.endpoint.clone();
         let _handle = Some(spawn_sender(
@@ -75,13 +76,11 @@ impl Transport for HttpTransport {
                     sender.send(None).ok();
                 }
                 return true;
-            } else {
-                if let Ok(sender) = self.sender.lock() {
-                    match sender.try_send(None) {
-                        Err(TrySendError::Full(_)) => {}
-                        Ok(_) | Err(_) => {
-                            return self.signal.wait_timeout(guard, timeout).is_ok();
-                        }
+            } else if let Ok(sender) = self.sender.lock() {
+                match sender.try_send(None) {
+                    Err(TrySendError::Full(_)) => {}
+                    Ok(_) | Err(_) => {
+                        return self.signal.wait_timeout(guard, timeout).is_ok();
                     }
                 }
             }

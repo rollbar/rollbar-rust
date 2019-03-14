@@ -278,12 +278,12 @@ impl<'a> From<&'a str> for Level {
 
 impl ToString for Level {
     fn to_string(&self) -> String {
-        match self {
-            &Level::Critical => "critical",
-            &Level::Error => "error",
-            &Level::Warning => "warning",
-            &Level::Info => "info",
-            &Level::Debug => "debug",
+        match *self {
+            Level::Critical => "critical",
+            Level::Error => "error",
+            Level::Warning => "warning",
+            Level::Info => "info",
+            Level::Debug => "debug",
         }
         .to_string()
     }
@@ -321,6 +321,7 @@ impl<'de> ::serde::Deserialize<'de> for Level {
     }
 }
 
+#[derive(Default)]
 pub struct BodyBuilder {
     telemetry: Option<Vec<Telemetry>>,
 }

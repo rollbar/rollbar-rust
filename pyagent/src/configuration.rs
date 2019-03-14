@@ -5,7 +5,7 @@ use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::mem;
 
-const DEFAULT: &'static str = "DEFAULT";
+const DEFAULT: &str = "DEFAULT";
 
 #[derive(Debug)]
 pub struct Configuration {
@@ -140,7 +140,7 @@ impl App {
 
     pub fn validate(&self) -> Result<()> {
         if let Some(ts) = &self.targets {
-            if ts.len() == 0 {
+            if ts.is_empty() {
                 bail!(ErrorKind::MissingTargets(self.name.clone()));
             }
         } else {
@@ -239,14 +239,14 @@ impl Configuration {
         }
     }
 
-    pub fn to_toml(self) -> Result<String> {
+    pub fn into_toml(self) -> Result<String> {
         debug!("Starting conversion to TOML");
         let conf = TomlConfiguration::from(self);
         toml::to_string(&conf).chain_err(|| "bad toml data")
     }
 
     pub fn validate(&self) -> Result<()> {
-        for (_name, app) in &self.apps {
+        for app in self.apps.values() {
             app.validate()?;
         }
         Ok(())
@@ -374,19 +374,19 @@ impl ConfigurationBuilder {
         Ok(())
     }
 
-    fn convert_to_list(&self, value: &String) -> Vec<String> {
+    fn convert_to_list(&self, value: &str) -> Vec<String> {
         let parts: Vec<_> = value.split_whitespace().collect();
         parts.iter().map(|s| s.to_string()).collect()
     }
 
-    fn convert_to_bool(&self, value: &String) -> bool {
+    fn convert_to_bool(&self, value: &str) -> bool {
         match &value[..] {
             "false" | "False" | "FALSE" | "no" | "No" | "NO" => false,
             _ => true,
         }
     }
 
-    fn convert_to_pair_list(&self, value: &String) -> Result<Vec<Vec<String>>> {
+    fn convert_to_pair_list(&self, value: &str) -> Result<Vec<Vec<String>>> {
         let mut iter = value.split_whitespace();
         let mut result = Vec::new();
         loop {
@@ -395,7 +395,9 @@ impl ConfigurationBuilder {
                     result.push(vec![regex.to_string(), name.to_string()]);
                 }
                 (None, None) => break,
-                _ => return Err(ErrorKind::BadInput("log_format.patterns", value.clone()).into()),
+                _ => {
+                    return Err(ErrorKind::BadInput("log_format.patterns", value.to_owned()).into());
+                }
             }
         }
         Ok(result)

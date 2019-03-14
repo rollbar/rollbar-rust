@@ -1,4 +1,5 @@
-#[macro_use] extern crate log;
+#[macro_use]
+extern crate log;
 
 use rollbar_rust::constants;
 use rollbar_rust::types::*;
@@ -17,7 +18,7 @@ fn main() {
 
 fn make_configuration() -> Configuration {
     let mut conf = Configuration::default();
-    conf.access_token = Some("a4ced289a17c42928fb4b7fdba5f2ce0".to_owned());
+    conf.access_token = Some("POST_SERVER_ITEM_TOKEN".to_owned());
     conf
 }
 

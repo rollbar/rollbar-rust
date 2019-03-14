@@ -1,7 +1,11 @@
-#[macro_use] extern crate log;
-#[macro_use] extern crate serde_derive;
-#[macro_use] extern crate builder_derive;
-#[macro_use] extern crate error_chain;
+#[macro_use]
+extern crate log;
+#[macro_use]
+extern crate serde_derive;
+#[macro_use]
+extern crate builder_derive;
+#[macro_use]
+extern crate error_chain;
 
 mod configuration;
 mod errors;
@@ -14,6 +18,7 @@ pub use log::Level;
 pub use crate::configuration::Configuration;
 pub use crate::transport::{HttpTransport, Transport};
 
+#[derive(Default)]
 pub struct Uuid(uuid::Uuid);
 
 impl Uuid {
