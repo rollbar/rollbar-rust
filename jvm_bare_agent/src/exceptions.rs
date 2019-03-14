@@ -1,6 +1,6 @@
 use crate::rollbar::Rollbar;
+use aho_corasick::{AcAutomaton, Automaton};
 use lazy_static::lazy_static;
-use regex::RegexSet;
 use rollbar_jvm::env::JvmTiEnv;
 use rollbar_jvm::errors::*;
 use rollbar_jvm::jni::JniEnv;
@@ -44,58 +44,32 @@ pub fn callback(
     Ok(())
 }
 
-#[allow(clippy::trivial_regex)]
 fn should_ignore(class: &str) -> bool {
     lazy_static! {
-        static ref RE: RegexSet = RegexSet::new(&[
-            r"^com\.sun\.org",
-            r"^javax\.naming\.",
-            r"^java\.io\.EOFException",
-            r"^java\.io\.FileNotFoundException",
-            r"^java\.io\.IOException",
-            r"^java\.lang\.ArrayIndexOutOfBoundsException",
-            r"^java\.lang\.ClassNotFoundException",
-            r"^java\.lang\.IllegalStateException",
-            r"^java\.lang\.InterruptedException",
-            r"^java\.lang\.NoSuchFieldError",
-            r"^java\.lang\.NoSuchFieldException",
-            r"^java\.lang\.NoSuchMethodException",
-            r"^java\.net\.MalformedURLException",
-            r"^java\.net\.SocketException",
-            r"^java\.security\.cert\.CertificateParsingException",
-            r"^java\.security\.PrivilegedActionException",
-            r"^java\.security\.SignatureException",
-            r"^java\.util\.zip\.ZipException",
-            r"^javax\.crypto\.BadPaddingException",
-        ])
-        .unwrap();
+        static ref AUT: AcAutomaton<&'static str> = [
+            "com.sun.org",
+            "javax.naming.",
+            "java.io.EOFException",
+            "java.io.FileNotFoundException",
+            "java.io.IOException",
+            "java.lang.ArrayIndexOutOfBoundsException",
+            "java.lang.ClassNotFoundException",
+            "java.lang.IllegalStateException",
+            "java.lang.InterruptedException",
+            "java.lang.NoSuchFieldError",
+            "java.lang.NoSuchFieldException",
+            "java.lang.NoSuchMethodException",
+            "java.net.MalformedURLException",
+            "java.net.SocketException",
+            "java.security.cert.CertificateParsingException",
+            "java.security.PrivilegedActionException",
+            "java.security.SignatureException",
+            "java.util.zip.ZipException",
+            "javax.crypto.BadPaddingException",
+        ]
+        .iter()
+        .cloned()
+        .collect();
     }
-    RE.is_match(class)
+    AUT.find(class).next().is_some()
 }
-/*
-    if class.starts_with("com.sun.org") || class.starts_with("javax.naming.") {
-        return true;
-    }
-    match class {
-        "java.io.EOFException"
-        | "java.io.FileNotFoundException"
-        | "java.io.IOException"
-        | "java.lang.ArrayIndexOutOfBoundsException"
-        | "java.lang.ClassNotFoundException"
-        | "java.lang.IllegalStateException"
-        | "java.lang.InterruptedException"
-        | "java.lang.NoSuchFieldError"
-        | "java.lang.NoSuchFieldException"
-        | "java.lang.NoSuchMethodException"
-        | "java.net.MalformedURLException"
-        | "java.net.SocketException"
-        | "java.security.cert.CertificateParsingException"
-        | "java.security.PrivilegedActionException"
-        | "java.security.SignatureException"
-        | "java.util.zip.ZipException"
-        | "javax.crypto.BadPaddingException" => return true,
-        _ => {}
-    }
-    false
-}
-*/

@@ -1,4 +1,4 @@
-use rollbar_rust::types::{DataBuilder, Item};
+use rollbar_rust::types::{DataBuilder, Item, Notifier, Server};
 use rollbar_rust::{constants, Configuration, HttpTransport, Transport, Uuid};
 use std::time::Duration;
 
@@ -25,9 +25,22 @@ impl Rollbar {
 
     pub fn send(&self, builder: DataBuilder) {
         let data = builder
-            .notifier(constants::NOTIFIER.clone())
+            .notifier(
+                Notifier::builder()
+                    .name("rollbar-jvm-agent")
+                    .version(constants::VERSION)
+                    .build(),
+            )
             .platform(constants::PLATFORM)
             .uuid(Uuid::new())
+            .maybe_environment(self.conf.environment.clone())
+            .server(
+                Server::builder()
+                    .cpu(constants::ARCH)
+                    .maybe_host(self.conf.host.clone())
+                    .maybe_code_version(self.conf.code_version.clone())
+                    .build(),
+            )
             .build();
 
         let item = Item::builder()
