@@ -10,6 +10,7 @@ pub struct Configuration {
     pub code_version: Option<String>,
     pub log_level: Level,
     pub timeout: u64,
+    pub proxy: Option<String>,
 }
 
 impl Default for Configuration {
@@ -22,6 +23,7 @@ impl Default for Configuration {
             code_version: None,
             log_level: Level::Info,
             timeout: 10,
+            proxy: None,
         }
     }
 }

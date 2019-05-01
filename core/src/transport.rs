@@ -6,7 +6,7 @@ use std::time::Duration;
 
 use crate::configuration::Configuration;
 use crate::types::Item;
-use reqwest::Client;
+use reqwest::{Client, Proxy};
 
 const QUEUE_DEPTH: usize = 50;
 
@@ -32,11 +32,15 @@ impl HttpTransport {
         let (tx, rx) = sync_channel(QUEUE_DEPTH);
         let signal = Arc::new(Condvar::new());
         let shutdown = Arc::new(AtomicBool::new(false));
-        let client = Client::builder()
+        let client_builder = Client::builder()
             .gzip(true)
-            .timeout(Duration::from_secs(configuration.timeout))
-            .build()
-            .unwrap();
+            .timeout(Duration::from_secs(configuration.timeout));
+        let client_builder = if let Some(proxy) = &configuration.proxy {
+            client_builder.proxy(Proxy::all(proxy).unwrap())
+        } else {
+            client_builder
+        };
+        let client = client_builder.build().unwrap();
         #[allow(clippy::mutex_atomic)]
         let queue_depth = Arc::new(Mutex::new(0));
         let endpoint = configuration.endpoint.clone();

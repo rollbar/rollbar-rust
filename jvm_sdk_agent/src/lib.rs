@@ -11,9 +11,9 @@ use rollbar_jvm::env::JvmTiEnv;
 use rollbar_jvm::jni::JniEnv;
 use rollbar_jvm::jvmti::{jint, jlocation, jmethodID, jobject, jthread, jvmtiEnv, JNIEnv, JavaVM};
 use std::os::raw::{c_char, c_void};
-use std::sync::atomic::{AtomicBool, Ordering, ATOMIC_BOOL_INIT};
+use std::sync::atomic::{AtomicBool, Ordering};
 
-static INIT_SUCCESS: AtomicBool = ATOMIC_BOOL_INIT;
+static INIT_SUCCESS: AtomicBool = AtomicBool::new(false);
 
 /// This is the Agent entry point that is called by the JVM during the loading phase.
 /// Any failures in this function will cause the JVM not to start which is strictly

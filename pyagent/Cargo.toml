@@ -1,6 +1,6 @@
 [package]
 name = "pyagent"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Andrew Weiss <wvvwwvw@gmail.com>"]
 edition = "2018"
 

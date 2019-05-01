@@ -16,10 +16,10 @@ use rollbar_jvm::jvmti::*;
 use rollbar_rust::Configuration;
 use std::env;
 use std::os::raw::{c_char, c_void};
-use std::sync::atomic::{AtomicBool, Ordering, ATOMIC_BOOL_INIT};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Once;
 
-static INIT_SUCCESS: AtomicBool = ATOMIC_BOOL_INIT;
+static INIT_SUCCESS: AtomicBool = AtomicBool::new(false);
 
 static mut CONFIG: Option<Configuration> = None;
 static INIT: Once = Once::new();
