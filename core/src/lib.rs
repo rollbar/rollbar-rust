@@ -34,6 +34,7 @@ impl Into<String> for Uuid {
 }
 
 use std::fmt;
+
 impl fmt::Display for Uuid {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(&self.0, f)
