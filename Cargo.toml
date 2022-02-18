@@ -6,6 +6,7 @@ members = [
   "jvm_core",
   "jvm_sdk_agent",
   "jvm_bare_agent",
+  "examples/*"
 ]
 
 [profile.release]

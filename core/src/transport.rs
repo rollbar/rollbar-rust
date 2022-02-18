@@ -1,9 +1,10 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{sync_channel, Receiver, SyncSender, TrySendError};
 use std::sync::{Arc, Condvar, Mutex};
-// TODO: isaac
-use std::thread::{self, JoinHandle};
 use std::time::Duration;
+
+#[cfg(not(target_arch = "wasm32"))]
+use std::thread::{self, JoinHandle};
 
 use crate::configuration::Configuration;
 use crate::types::Item;
