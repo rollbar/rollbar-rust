@@ -2,10 +2,8 @@ use dioxus::prelude::*;
 
 use rollbar::{constants, types::Level, types::*, Configuration, HttpTransport, Transport, Uuid};
 
-use std::time::Duration;
-
 fn main() {
-    console_log::init_with_level(log::Level::Trace);
+    console_log::init_with_level(log::Level::Trace).unwrap();
 
     dioxus::web::launch(app);
 }
@@ -29,9 +27,11 @@ fn app(cx: Scope) -> Element {
     ))
 }
 
+const TOKEN: &str = env!("ROLLBAR_POST_ITEM_TOKEN");
+
 fn make_configuration() -> Configuration {
     let mut conf = Configuration::default();
-    conf.access_token = Some("b11a93731fb9495faaa385dbf3cafc82".to_owned());
+    conf.access_token = Some(TOKEN.to_owned());
     conf
 }
 

@@ -1,13 +1,14 @@
+#[cfg(not(target_arch = "wasm32"))]
+mod threads;
+
+#[cfg(target_arch = "wasm32")]
 mod wasm;
+
+#[cfg(not(target_arch = "wasm32"))]
+pub use threads::HttpTransport;
 
 #[cfg(target_arch = "wasm32")]
 pub use wasm::HttpTransport;
-
-//#[cfg(not(target_arch = "wasm32"))]
-//mod threads;
-
-//#[cfg(not(target_arch = "wasm32"))]
-//pub use threads::HttpTransport;
 
 pub const QUEUE_DEPTH: usize = 50;
 
