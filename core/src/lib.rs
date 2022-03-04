@@ -17,6 +17,7 @@ pub use log::Level;
 
 pub use crate::configuration::Configuration;
 pub use crate::transport::{HttpTransport, Transport};
+pub use crate::types::*;
 
 #[derive(Default)]
 pub struct Uuid(uuid::Uuid);

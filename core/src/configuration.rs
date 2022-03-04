@@ -1,6 +1,6 @@
 use crate::types::Level;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Configuration {
     pub endpoint: String,

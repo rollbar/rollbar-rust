@@ -135,6 +135,7 @@ pub struct Frame {
 
 #[derive(Serialize, Deserialize, Debug, Builder)]
 pub struct Exception {
+    #[cfg(not(target_arch = "wasm32"))]
     pub class: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
@@ -145,6 +146,7 @@ pub struct Exception {
 impl Default for Exception {
     fn default() -> Self {
         Exception {
+            #[cfg(not(target_arch = "wasm32"))]
             class: thread::current().name().unwrap_or("unnamed").to_owned(),
             message: None,
             description: None,

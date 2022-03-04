@@ -2,7 +2,7 @@
 name = "rollbar-java-agent"
 version = "0.1.1"
 authors = ["Andrew Weiss <wvvwwvw@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 crate_type = [ "cdylib" ]

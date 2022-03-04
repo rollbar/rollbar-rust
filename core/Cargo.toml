@@ -2,7 +2,7 @@
 name = "rollbar-rust"
 version = "0.1.1"
 authors = ["Andrew Weiss <andrew@rollbar.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -17,9 +17,10 @@ serde_json = "1.0"
 serde_derive = "1.0"
 simple_logger = "1.0.1"
 uuid = { version = "0.8.2", features = ["v4", "wasm-bindgen"] }
+futures = { version = "0.3.21", features = ["executor"] }
 builder_derive = { path = "../builder_derive" }
+wasm-bindgen-futures = "0.4.29"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-futures = { version = "0.3.21", features = ["executor"] }
 wasm-bindgen-futures = "0.4.29"
 wasm-bindgen = "0.2.79"

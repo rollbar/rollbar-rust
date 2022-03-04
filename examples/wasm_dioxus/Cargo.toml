@@ -6,5 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+console_log = "0.2.0"
 dioxus = { version = "0.1.8", features = ["web"] }
+log = "0.4.14"
 rollbar = { package = "rollbar-rust", path = "../../core" }
+wasm-bindgen = "0.2.79"
