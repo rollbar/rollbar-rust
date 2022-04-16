@@ -6,7 +6,7 @@ change.
 
 ### rollbar-rust
 
-The subdirectory `core` contains a crate which defines the types necessary to build items for the
+The subdirectory `crates/core` contains a crate which defines the types necessary to build items for the
 Rollbar API, basic configuration, and an HTTP transport for sending items to the API. The intended
 purpose of this crate is to serve as the foundation for interacting with the API for other things to
 build upon.
@@ -17,7 +17,7 @@ fledged SDK.
 
 ### rollbar-jvm
 
-The subdirectory `jvm_core` contains a crate which encapsulates certain interactions with the JVM
+The subdirectory `crates/jvm_core` contains a crate which encapsulates certain interactions with the JVM
 and JVMTI. Building this crate requires `JAVA_HOME` be set correctly so that we can get access to
 the JVMTI C headers to generate Rust bindings. You can see what is necessary in the `build.rs` file
 within this crate. This crate relies on `rollbar-rust` for some type definitions of Exceptions and
@@ -25,7 +25,7 @@ Frames. These are used for getting stack traces from the JNI/JVMTI.
 
 ### rollbar-java-agent
 
-The subdirectory `jvm_sdk_agent` contains a crate which builds a cdylib to be used as a native agent
+The subdirectory `crates/jvm_sdk_agent` contains a crate which builds a cdylib to be used as a native agent
 with the JVM. This agent assumes existence and proper configuration of the `rollbar-java` SDK in
 your Java project. It is intended to supplement the normal Java SDK by providing extra information
 that is only possible to gather from the JVMTI. Currently this is only used for gathering local
@@ -33,7 +33,7 @@ variables. This crate is pretty small as most of the functionality is provided b
 
 ### rollbar-jvm-agent
 
-The subdirectory `jvm_bare_agent` contains a crate which builds a cdylib to be used as a native
+The subdirectory `crates/jvm_bare_agent` contains a crate which builds a cdylib to be used as a native
 agent with the JVM. This agents assumes that `rollbar-java` does NOT exist in your Java project and
 therefore does some of the work that would otherwise be done by the Java SDK. Again because
 `rollbar-jvm` handles a lot of the heavy lifting of the interaction with the JVM this crate does not
@@ -42,6 +42,35 @@ have to do that much.
 If you think the naming scheme is terrible I agree with you. Therefore, all of the actual names are
 probably going to change once all of the parts are fleshed out. That is why nothing has been
 published to crates.io yet.
+
+### rollbar-wasm
+
+The subdirectory `crates/wasm` contains a crate which can be built by
+`wasm-pack` and then ran in the browser context. `examples/nextjs` contains an
+example web application that consumes a package generated from this crate. To
+run the example, ensure you have a file in the root of this repository named
+`.env` that contains something like:
+
+```
+POST_TOKEN=<your post client token>
+```
+
+Next, ensure you have gnu make installed and run `make nextjs-example`.
+
+### rollbar-wasm
+
+The subdirectory `crates/node` contains a crate which which generates a binary
+library that can be consumed as a native addon for node. The directory also
+contains a typescript file and a `package.json` that complete an node module
+that can be consumed by a node application. The `examples/nodejs` directory
+contain an example of using the library. To run the example, ensure you have a
+file in the root of this repository named `.env` that contains something like:
+
+```
+POST_TOKEN=<your post client token>
+```
+
+Next, ensure you have gnu make installed and run `make nextjs-example`.
 
 ## Building
 
