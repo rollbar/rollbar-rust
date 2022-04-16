@@ -2,5 +2,5 @@
 # yarn lockfile v1
 
 
-"rollbar-node@file:../../sdk/node":
+"rollbar-node@file:../../crates/node":
   version "0.1.0"

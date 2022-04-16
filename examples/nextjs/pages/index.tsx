@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useEffect, useState, useCallback } from 'react'
 import styles from '../styles/Home.module.css'
 
-import { Instance } from 'rollbar-sdk'
+import { Rollbar } from 'rollbar-wasm'
 
 type LogLevel = 'debug' | 'warning' | 'info' | 'error' | 'critical';
 
@@ -16,10 +16,10 @@ const defaultExtra = [
 ];
 
 const Home: NextPage = () => {
-  const [rollbar, setRollbar] = useState<Instance>();
+  const [rollbar, setRollbar] = useState<Rollbar>();
 
   useEffect(() => {
-    const instance = Instance.fromConfig({
+    const instance = Rollbar.fromConfig({
       accessToken: process.env.POST_TOKEN
     });
 

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "rollbar-node": "file:../../sdk/node"
+    "rollbar-node": "file:../../crates/node"
   },
   "author": "",
   "license": "ISC"

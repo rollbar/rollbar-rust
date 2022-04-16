@@ -1,11 +1,13 @@
 [workspace]
 members = [
-  "pyagent",
-  "builder_derive",
-  "core",
-  "jvm_core",
-  "jvm_sdk_agent",
-  "jvm_bare_agent",
+  "crates/pyagent",
+  "crates/builder_derive",
+  "crates/core",
+  "crates/jvm_core",
+  "crates/jvm_sdk_agent",
+  "crates/jvm_bare_agent",
+  "crates/wasm",
+  "crates/node",
 ]
 
 [profile.release]
