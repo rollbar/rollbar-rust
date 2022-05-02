@@ -528,7 +528,7 @@ mod tests {
         assert_eq!(frame.lineno.unwrap(), 42);
         assert_eq!(frame.method.unwrap(), "hello");
         assert_eq!(frame.colno, None);
-        assert_eq!(frame.filename, "core/src/types.rs");
+        assert_eq!(frame.filename, "crates/core/src/types.rs");
     }
 
     #[test]

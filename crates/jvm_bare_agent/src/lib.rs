@@ -37,6 +37,7 @@ fn build_client() -> Rollbar {
         config = CONFIG.take();
     }
     Rollbar::new(config.expect("config should be initialized before building client"))
+        .expect("rollbar could not be initialized")
 }
 
 fn initialize_configuration() -> bool {

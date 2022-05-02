@@ -10,7 +10,7 @@ use std::time::Duration;
 fn main() {
     simple_logger::init_with_level(log::Level::Info).unwrap();
     let conf = make_configuration();
-    let transport = HttpTransport::new(&conf);
+    let transport = HttpTransport::new(conf.clone()).unwrap();
     let item = make_item(&conf);
     transport.send(item);
     transport.shutdown(Duration::from_secs(5));

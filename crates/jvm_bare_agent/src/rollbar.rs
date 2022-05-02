@@ -18,9 +18,9 @@ impl Rollbar {
         toml::from_str(&input).map_err(|err| err.to_string())
     }
 
-    pub fn new(conf: Configuration) -> Self {
-        let transport = HttpTransport::new(&conf);
-        Rollbar { conf, transport }
+    pub fn new(conf: Configuration) -> Result<Self, Box<dyn std::error::Error>> {
+        let transport = HttpTransport::new(conf.clone())?;
+        Ok(Rollbar { conf, transport })
     }
 
     pub fn send(&self, builder: DataBuilder) {
