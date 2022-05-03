@@ -1,0 +1,16 @@
+name: code-review-actions
+on:
+  push:
+    brances: [master]
+  pull_request:
+    brances: ["*"]
+jobs:
+  tests-pass:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: cargo build --workspace
+      - run: cargo test --workspace
