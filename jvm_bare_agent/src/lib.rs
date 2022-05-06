@@ -25,6 +25,7 @@ static mut CONFIG: Option<Configuration> = None;
 static INIT: Once = Once::new();
 
 const ACCESS_TOKEN_KEY: &str = "ROLLBAR_TOKEN";
+const ENDPOINT_KEY: &str = "ROLLBAR_ENDPOINT";
 
 lazy_static! {
     static ref ROLLBAR: Rollbar = build_client();
@@ -48,16 +49,18 @@ fn initialize_configuration() -> bool {
                 }
                 Err(err) => {
                     debug!("Error loading configuration: {}", err);
-                    match env::var(ACCESS_TOKEN_KEY) {
-                        Ok(token) => {
-                            let mut conf = Configuration::default();
-                            conf.access_token = Some(token);
-                            CONFIG = Some(conf);
-                        }
-                        Err(e) => {
-                            debug!("Error loading {}: {}", ACCESS_TOKEN_KEY, e);
-                        }
+
+                    let mut conf = Configuration::default();
+
+                    if let Ok(access_token) = env::var(ACCESS_TOKEN_KEY) {
+                        conf.access_token = Some(access_token);
                     }
+
+                    if let Ok(endpoint) = env::var(ENDPOINT_KEY) {
+                        conf.endpoint = endpoint;
+                    }
+
+                    CONFIG = Some(conf);
                 }
             }
         });
