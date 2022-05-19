@@ -1,4 +1,4 @@
-use {serde_json::Value, std::collections::HashMap, wasm_bindgen::prelude::*};
+use {std::collections::HashMap, wasm_bindgen::prelude::*};
 
 use rollbar_rust::{
     types::Level, Body, Configuration, Data, HttpTransport, Item, Message, Transport,
@@ -24,21 +24,24 @@ impl Rollbar {
         Ok(Rollbar { transport })
     }
 
-    pub fn log(&self, level: &str, message: &str, extra: JsValue) {
-        let extra: Option<HashMap<String, Value>> = extra.into_serde().expect("to work");
+    pub fn log(&self, level: &str, message: &str, extra: JsValue) -> Result<(), JsValue> {
+        let extra: HashMap<_, _> = extra.into_serde().unwrap_or_default();
+        let message = Message::builder().body(message).extra(extra).build();
 
-        let message = Message::builder()
-            .body(message)
-            .extra(extra.unwrap_or_else(|| HashMap::new()))
-            .build();
         let body = Body::builder().message(message).build();
-        let mut data = Data::default();
-        data.level = Some(Level::from(level));
-        data.body = body;
+
+        let data = Data {
+            level: Some(Level::from(level)),
+            body,
+            ..Data::default()
+        };
 
         let config = self.transport.config();
 
-        let access_token = config.access_token.clone().expect("missing access token");
+        let access_token = config
+            .access_token
+            .as_ref()
+            .ok_or(JsValue::from_str("missing access token"))?;
 
         let item = Item::builder()
             .access_token(access_token)
@@ -46,25 +49,27 @@ impl Rollbar {
             .build();
 
         self.transport.send(item);
+
+        Ok(())
     }
 
-    pub fn debug(&self, message: &str, extra: JsValue) {
+    pub fn debug(&self, message: &str, extra: JsValue) -> Result<(), JsValue> {
         self.log("debug", message, extra)
     }
 
-    pub fn info(&self, message: &str, extra: JsValue) {
+    pub fn info(&self, message: &str, extra: JsValue) -> Result<(), JsValue> {
         self.log("info", message, extra)
     }
 
-    pub fn warning(&self, message: &str, extra: JsValue) {
+    pub fn warning(&self, message: &str, extra: JsValue) -> Result<(), JsValue> {
         self.log("warning", message, extra)
     }
 
-    pub fn error(&self, message: &str, extra: JsValue) {
+    pub fn error(&self, message: &str, extra: JsValue) -> Result<(), JsValue> {
         self.log("error", message, extra)
     }
 
-    pub fn critical(&self, message: &str, extra: JsValue) {
+    pub fn critical(&self, message: &str, extra: JsValue) -> Result<(), JsValue> {
         self.log("critical", message, extra)
     }
 }
