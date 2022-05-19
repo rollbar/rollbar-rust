@@ -36,21 +36,13 @@ impl Transport for HttpTransport {
     }
 
     fn shutdown(&self, timeout: Duration) -> bool {
-        if let Ok(mut so) = self.send_shutdown.lock() {
-            if let Some(signal) = so.take() {
-                if let Err(_) = signal.send(()) {
-                    log::error!("error sending shutdown");
-
-                    false
-                } else {
-                    true
-                }
-            } else {
-                false
-            }
-        } else {
-            false
-        }
+        self.send_shutdown
+            .lock()
+            .ok()
+            .and_then(|mut so| so.take())
+            .map(|signal| signal.send(()))
+            .map(|result| result.is_ok())
+            .unwrap_or(false)
     }
 }
 

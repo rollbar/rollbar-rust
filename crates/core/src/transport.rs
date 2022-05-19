@@ -23,8 +23,5 @@ pub trait Transport: Send + Sync + 'static {
 
     fn config(&self) -> &Configuration;
 
-    fn shutdown(&self, timeout: Duration) -> bool {
-        let _timeout = timeout;
-        true
-    }
+    fn shutdown(&self, timeout: Duration) -> bool;
 }

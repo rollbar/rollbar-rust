@@ -9,8 +9,6 @@ use crate::types::Item;
 
 use reqwest::{Client, Proxy};
 
-const QUEUE_DEPTH: usize = 50;
-
 #[derive(Debug)]
 pub struct HttpTransport {
     sender: Mutex<mpsc::Sender<Option<Item>>>,
@@ -23,7 +21,7 @@ pub struct HttpTransport {
 
 impl HttpTransport {
     pub fn new(configuration: Configuration) -> Result<Self, std::io::Error> {
-        let (tx, rx) = mpsc::channel(QUEUE_DEPTH);
+        let (tx, rx) = mpsc::channel(super::QUEUE_DEPTH);
         let signal = Arc::new(Condvar::new());
         let shutdown = Arc::new(AtomicBool::new(false));
 
@@ -31,7 +29,15 @@ impl HttpTransport {
             .gzip(true)
             .timeout(Duration::from_secs(configuration.timeout));
 
-        #[cfg(not(target_arch = "wasm32"))]
+        let proxy = configuration
+            .proxy
+            .as_ref()
+            .and_then(|proxy| Proxy::all(proxy).ok());
+
+        if let Some(proxy) = proxy {
+            client_builder = client_builder.proxy(proxy);
+        }
+
         if let Some(proxy) = &configuration.proxy {
             client_builder = client_builder.proxy(Proxy::all(proxy).unwrap());
         }
