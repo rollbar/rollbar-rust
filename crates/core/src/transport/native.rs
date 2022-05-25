@@ -38,10 +38,6 @@ impl HttpTransport {
             client_builder = client_builder.proxy(proxy);
         }
 
-        if let Some(proxy) = &configuration.proxy {
-            client_builder = client_builder.proxy(Proxy::all(proxy).unwrap());
-        }
-
         let client = client_builder.build().unwrap();
         #[allow(clippy::mutex_atomic)]
         let queue_depth = Arc::new(Mutex::new(0));
