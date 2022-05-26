@@ -1,0 +1,17 @@
+[package]
+name = "rollbar-jvm-agent"
+version = "0.1.1"
+authors = ["Andrew Weiss <wvvwwvw@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate_type = [ "cdylib" ]
+
+[dependencies]
+pretty_env_logger = "0.2.5"
+lazy_static = "1.2.0"
+aho-corasick = "0.6.10"
+log = "0.4"
+toml = "0.4"
+rollbar-jvm = { path = "../jvm_core" }
+rollbar-rust = { path = "../core" }
