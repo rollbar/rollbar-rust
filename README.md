@@ -1,6 +1,25 @@
+<p align="center">
+  <img alt="rollbar-logo" src="https://user-images.githubusercontent.com/3300063/207964480-54eda665-d6fe-4527-ba51-b0ab3f41f10b.png" />
+</p>
+
+<h1 align="center">Rollbar Rust Monorepo</h1>
+
+
+<p align="center">
+  <strong>Proactively discover, predict, and resolve errors in real-time with <a href="https://rollbar.com">Rollbar’s</a> error monitoring platform. <a href="https://rollbar.com/signup/">Start tracking errors today</a>!</strong>
+</p>
+
+---
 This is an umbrella project which contains a few different Rust crates for interacting with Rollbar.
 Everything is still heavily under development and everything include crate names are subject to
 change.
+
+## Key benefits of using Rollbar for Rust are:
+- **Automatic error grouping:** Rollbar aggregates Occurrences caused by the same error into Items that represent application issues. <a href="https://docs.rollbar.com/docs/grouping-occurrences">Learn more about reducing log noise</a>.
+- **Advanced search:** Filter items by many different properties. <a href="https://docs.rollbar.com/docs/search-items">Learn more about search</a>.
+- **Customizable notifications:** Rollbar supports several messaging and incident management tools where your team can get notified about errors and important events by real-time alerts. <a href="https://docs.rollbar.com/docs/notifications">Learn more about Rollbar notifications</a>.
+
+
 
 ## Crates
 
