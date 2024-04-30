@@ -1,3 +1,9 @@
+## Attention:
+
+As of May 2024, Rollbar will not be actively updating this repository and plans to archive it in January of 2025. We encourage our community to fork this repo if you wish to continue its development. While Rollbar will no longer be engaging in active development, we remain committed to reviewing and merging pull requests related to security updates. If an actively maintained fork emerges, please reach out to our support team and we will link to it from our documentation.
+
+<hr />
+
 This is an umbrella project which contains a few different Rust crates for interacting with Rollbar.
 Everything is still heavily under development and everything include crate names are subject to
 change.
